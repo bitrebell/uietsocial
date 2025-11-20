@@ -205,7 +205,7 @@ app.post('/api/auth/resend-otp', otpLimiter, async (req, res) => {
 
         // Check if there's an existing OTP
         const stored = otpStore.get(email);
-        if (stored && stored.lastSent && Date.now() - stored.lastSent < 60000) {
+        if (stored?.lastSent && Date.now() - stored.lastSent < 60000) {
             return res.status(429).json({
                 success: false,
                 message: 'Please wait before requesting another code'
