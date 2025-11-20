@@ -31,7 +31,7 @@
     
     <script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
 <script>
-    window.ezstandalone = window.ezstandalone || {};
+    globalThis.ezstandalone = globalThis.ezstandalone || {};
     ezstandalone.cmd = ezstandalone.cmd || [];
 </script>
 
@@ -169,6 +169,23 @@
             display: flex;
             gap: 2rem;
             align-items: center;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
         .nav-link {
@@ -374,6 +391,237 @@
             font-size: 0.8rem;
             font-weight: 500;
             border: 1px solid var(--border-color);
+        }
+
+        /* Login Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.4s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+            background: var(--secondary-bg);
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.9rem 1rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .otp-inputs {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: var(--secondary-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .otp-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: scale(1.05);
+        }
+
+        .auth-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            padding: 1rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .auth-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .auth-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .auth-message {
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .auth-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .auth-message.success {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            color: #4ade80;
+        }
+
+        .auth-message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .resend-link {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .resend-btn {
+            color: #667eea;
+            cursor: pointer;
+            text-decoration: underline;
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 0.9rem;
+        }
+
+        .resend-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .timer {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Touch Device Optimizations */
@@ -1209,6 +1457,7 @@
                 <div class="status-indicator offline"></div>
                 <span class="status-text">Under Maintenance</span>
             </div>
+            <button class="login-btn" id="loginBtn">Login</button>
         </nav>
 
         <!-- Status Bar -->
@@ -1251,25 +1500,25 @@
                 <p class="subtitle">UIET.social is currently under maintenance. We're working hard to bring you something amazing!</p>
             </header>
 
-        <div class="main-content">
-            <!-- Interactive Stats -->
-            <div class="interactive-stats fade-in">
-                <div class="stat-card glow-effect">
-                    <div class="stat-number" id="studentsCount">1500+</div>
-                    <div class="stat-label">UIET Students</div>
-                </div>
-                <div class="stat-card glow-effect">
-                    <div class="stat-number" id="projectsCount">5+</div>
-                    <div class="stat-label">Active Projects</div>
-                </div>
-                <div class="stat-card glow-effect">
-                    <div class="stat-number" id="contributorsCount">10+</div>
-                    <div class="stat-label">Contributors</div>
-                </div>
-                <div class="stat-card glow-effect">
-                    <div class="stat-number" id="communityCount">5+</div>
-                    <div class="stat-label">Communities</div>
-                </div>
+        // Navigation functionality
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            for (const section of sections) {
+                section.classList.remove('active');
+            }
+            
+            // Show selected section
+            const targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            
+            // Update navigation links
+            const navLinks = document.querySelectorAll('.nav-link');
+            for (const link of navLinks) {
+                link.classList.remove('active');
+            }
             </div>
             <div class="info-section fade-in">
                 <h2 class="info-title">📋 About This Platform</h2>
@@ -1285,11 +1534,13 @@
                     </p>
                     <p style="margin-top: 20px;">
                         Our mission is to bridge the gap between students and provide a platform for collaboration, 
-                        information sharing, and community building within the UIET ecosystem.
-                    </p>
-                </div>
-            </div>
-
+            // Animate elements with staggered fade-in
+            const fadeElements = document.querySelectorAll('.fade-in');
+            let index = 0;
+            for (const element of fadeElements) {
+                element.style.animationDelay = `${index * 0.2}s`;
+                index++;
+            }
             <div class="contact-grid fade-in">
                 <div class="contact-card">
                     <span class="contact-icon">📧</span>
@@ -1311,42 +1562,45 @@
 
                 <div class="contact-card">
                     <span class="contact-icon">💬</span>
-                    <h3 class="contact-title">Join Community</h3>
-                    <p class="contact-description">
-                        Connect with fellow students in our active Telegram group.
-                    </p>
-                    <a href="https://t.me/uietsocial" class="social-link" target="_blank">Telegram Group</a>
-                </div>
-            </div>
-
-            <div class="subscribe-section fade-in">
-                <h3 class="info-title">🔔 Stay Updated</h3>
-                <p class="info-content" style="margin-bottom: 0;">
-                    Subscribe to our newsletter to get notified when we're back online with exciting new features and updates!
-                </p>
-                <form class="subscribe-form" id="subscribeForm">
-                    <input 
+            const statsObserver = new IntersectionObserver((entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        const statCards = entry.target.querySelectorAll('.stat-card');
+                        let cardIndex = 0;
+                        for (const card of statCards) {
+                            const currentIndex = cardIndex;
+                            setTimeout(() => {
+                                const numberElement = card.querySelector('.stat-number');
+                                const targetValue = parseInt(numberElement.textContent);
+                                animateCounter(numberElement, targetValue, 1500 + (currentIndex * 200));
+                            }, currentIndex * 300);
+                            cardIndex++;
+                        }
+                        statsObserver.unobserve(entry.target);
+                    }
+                }
+            }, observerOptions);
                         type="email" 
                         class="email-input" 
                         placeholder="Enter your email address" 
-                        required 
-                        id="emailInput"
-                    >
-                    <button type="submit" class="subscribe-btn">Subscribe</button>
-                </form>
-                <div class="subscribe-message" id="subscribeMessage"></div>
-            </div>
+            // Dynamic card interactions
+            const cards = document.querySelectorAll('.contact-card, .contribution-card, .stat-card, .about-card');
+            for (const card of cards) {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = this.classList.contains('stat-card') 
+                        ? 'translateY(-5px) scale(1.05)' 
+                        : 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
 
-            <!-- Contribution Section -->
-            <div class="contribution-section fade-in">
-                <h3 class="info-title">🤝 Join Our Mission</h3>
-                <div class="info-content">
-                    <p>
-                        We believe in the power of collaboration! Our platform thrives because of passionate UIET students 
-                        who contribute their skills and ideas. Whether you're a developer, designer, marketer, or have any 
-                        other talent, we welcome your contribution to make this platform better for everyone.     
-                </div>
-
+                // Add random delay to glow animation
+                if (card.classList.contains('glow-effect')) {
+                    card.style.animationDelay = `${Math.random() * 2}s`;
+                }
+            }
                 <div class="contribution-grid">
                     <div class="contribution-card">
                         <span class="contribution-icon">💻</span>
@@ -1435,51 +1689,53 @@
                     <div class="contact-icon">📧</div>
                     <h3>Email</h3>
                     <p>Get in touch with our team</p>
-                    <a href="mailto:info@uiet.social" class="contact-link">info@uiet.social</a>
-                </div>
-
-                <div class="contact-card glow-effect">
-                    <div class="contact-icon">📱</div>
-                    <h3>Instagram</h3>
-                    <p>Follow us for updates and community content</p>
-                    <a href="https://instagram.com/uiet.social" target="_blank" class="contact-link">@uiet.social</a>
-                </div>
-
-                <div class="contact-card glow-effect">
-                    <div class="contact-icon">💬</div>
-                    <h3>Telegram</h3>
-                    <p>Join our community group for discussions</p>
+            // Parallax effect for floating elements
+            document.addEventListener('mousemove', function(e) {
+                const mouseX = (e.clientX / window.innerWidth) * 100;
+                const mouseY = (e.clientY / window.innerHeight) * 100;
+                
+                const dynamicElements = document.querySelectorAll('.dynamic-element');
+                for (const element of dynamicElements) {
+                    const speed = 0.05;
+                    const x = (mouseX - 50) * speed;
+                    const y = (mouseY - 50) * speed;
+                    
+                    element.style.transform = `translate(${x}px, ${y}px)`;
+                }
+            });
                     <a href="#" class="contact-link">UIET Social Group</a>
-                </div>
-            </div>
-        </div>
+            // Add random animations to contribution cards
+            const contributionCards = document.querySelectorAll('.contribution-card');
+            let contributionIndex = 0;
+            for (const card of contributionCards) {
+                // Stagger the initial animation
+                card.style.animationDelay = `${contributionIndex * 0.1}s`;
+                
+                // Add random hover delay
+                card.addEventListener('mouseenter', function() {
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-5px) scale(1.02) rotate(1deg)';
+                    }, Math.random() * 100);
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1) rotate(0deg)';
+                });
+                contributionIndex++;
+            // Intersection Observer for scroll animations
+            const scrollObserver = new IntersectionObserver((entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'slideInLeft 0.8s ease forwards';
+                        scrollObserver.unobserve(entry.target);
+                    }
+                }
+            }, { threshold: 0.1 });
 
-        <!-- About Section -->
-        <div id="about-section" class="content-section">
-            <header class="section-header fade-in">
-                <h2 class="section-title">About UIET.social</h2>
-                <p class="section-subtitle">Building the future of student connectivity</p>
-            </header>
-
-            <div class="about-content fade-in">
-                <div class="about-card">
-                    <h3>Our Mission</h3>
-                    <p>UIET.social aims to create a comprehensive platform that connects students, facilitates networking, and enhances the overall university experience through technology and community building.</p>
-                </div>
-
-                <div class="about-card">
-                    <h3>Our Vision</h3>
-                    <p>To become the central hub for all UIET students, providing tools for academic collaboration, career development, and social networking in one seamless platform.</p>
-                </div>
-
-                <div class="about-card">
-                    <h3>What We're Building</h3>
-                    <ul>
-                        <li>Student networking platform</li>
-                        <li>Academic resource sharing</li>
-                        <li>Event management system</li>
-                        <li>Career guidance tools</li>
-                        <li>Community forums</li>
+            // Observe sections for scroll animations
+            for (const section of document.querySelectorAll('.info-section, .contribution-section, .cta-section, .about-content')) {
+                scrollObserver.observe(section);
+            }
                         <li>Project collaboration space</li>
                     </ul>
                 </div>
@@ -1529,7 +1785,7 @@
         // Enhanced dynamic animations and interactions
         document.addEventListener('DOMContentLoaded', function() {
             // Mobile touch optimization
-            if ('ontouchstart' in window) {
+            if ('ontouchstart' in globalThis) {
                 document.body.classList.add('touch-device');
             }
             
@@ -1551,7 +1807,7 @@
                         current = target;
                         clearInterval(timer);
                     }
-                    element.textContent = Math.floor(current) + (target >= 1000 ? '+' : '+');
+                    element.textContent = Math.floor(current) + '+';
                 }, 16);
             }
 
@@ -1568,7 +1824,7 @@
                         statCards.forEach((card, index) => {
                             setTimeout(() => {
                                 const numberElement = card.querySelector('.stat-number');
-                                const targetValue = parseInt(numberElement.textContent);
+                                const targetValue = Number.parseInt(numberElement.textContent);
                                 animateCounter(numberElement, targetValue, 1500 + (index * 200));
                             }, index * 300);
                         });
@@ -1748,6 +2004,349 @@
                 `;
             }, 100);
         });
+
+        // Email Login with OTP Authentication System
+        const loginModal = document.createElement('div');
+        loginModal.id = 'loginModal';
+        loginModal.className = 'modal';
+        loginModal.innerHTML = `
+            <div class="modal-content">
+                <span class="modal-close" id="closeModal">&times;</span>
+                
+                <!-- Email Login Step -->
+                <div id="emailStep" class="auth-step">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Welcome Back! 👋</h2>
+                        <p class="modal-subtitle">Enter your email to receive a verification code</p>
+                    </div>
+                    <form class="auth-form" id="emailForm">
+                        <div class="form-group">
+                            <label class="form-label" for="loginEmail">Email Address</label>
+                            <input 
+                                type="email" 
+                                id="loginEmail" 
+                                class="form-input" 
+                                placeholder="your.email@example.com"
+                                required
+                            />
+                        </div>
+                        <button type="submit" class="auth-btn" id="sendOtpBtn">Send Verification Code</button>
+                        <div class="auth-message" id="emailMessage"></div>
+                    </form>
+                </div>
+
+                <!-- OTP Verification Step -->
+                <div id="otpStep" class="auth-step" style="display: none;">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Verify Your Email 🔐</h2>
+                        <p class="modal-subtitle">Enter the 6-digit code sent to <strong id="sentEmail"></strong></p>
+                    </div>
+                    <form class="auth-form" id="otpForm">
+                        <div class="form-group">
+                            <label class="form-label">Verification Code</label>
+                            <div class="otp-inputs">
+                                <input type="text" maxlength="1" class="otp-input" data-index="0" />
+                                <input type="text" maxlength="1" class="otp-input" data-index="1" />
+                                <input type="text" maxlength="1" class="otp-input" data-index="2" />
+                                <input type="text" maxlength="1" class="otp-input" data-index="3" />
+                                <input type="text" maxlength="1" class="otp-input" data-index="4" />
+                                <input type="text" maxlength="1" class="otp-input" data-index="5" />
+                            </div>
+                        </div>
+                        <button type="submit" class="auth-btn" id="verifyOtpBtn">Verify & Login</button>
+                        <div class="auth-message" id="otpMessage"></div>
+                        <div class="resend-link">
+                            Didn't receive the code? 
+                            <button type="button" class="resend-btn" id="resendOtp">Resend</button>
+                            <span class="timer" id="resendTimer"></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(loginModal);
+
+        // Authentication Logic
+        const authSystem = {
+            currentEmail: '',
+            generatedOtp: '',
+            otpExpiry: null,
+            resendTimeout: null,
+
+            init() {
+                this.setupEventListeners();
+            },
+
+            setupEventListeners() {
+                const loginBtn = document.getElementById('loginBtn');
+                const closeModal = document.getElementById('closeModal');
+                const emailForm = document.getElementById('emailForm');
+                const otpForm = document.getElementById('otpForm');
+                const resendBtn = document.getElementById('resendOtp');
+
+                loginBtn.addEventListener('click', () => this.openModal());
+                closeModal.addEventListener('click', () => this.closeModal());
+                loginModal.addEventListener('click', (e) => {
+                    if (e.target === loginModal) this.closeModal();
+                });
+
+                emailForm.addEventListener('submit', (e) => this.handleEmailSubmit(e));
+                otpForm.addEventListener('submit', (e) => this.handleOtpSubmit(e));
+                resendBtn.addEventListener('click', () => this.resendOtp());
+
+                // OTP input auto-focus
+                const otpInputs = document.querySelectorAll('.otp-input');
+                otpInputs.forEach((input, index) => {
+                    input.addEventListener('input', (e) => {
+                        if (e.target.value.length === 1 && index < otpInputs.length - 1) {
+                            otpInputs[index + 1].focus();
+                        }
+                    });
+                    input.addEventListener('keydown', (e) => {
+                        if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                            otpInputs[index - 1].focus();
+                        }
+                    });
+                    // Only allow numbers
+                    input.addEventListener('keypress', (e) => {
+                        if (!/[0-9]/.test(e.key)) {
+                            e.preventDefault();
+                        }
+                    });
+                });
+            },
+
+            openModal() {
+                loginModal.classList.add('active');
+                document.getElementById('emailStep').style.display = 'block';
+                document.getElementById('otpStep').style.display = 'none';
+                document.getElementById('loginEmail').focus();
+            },
+
+            closeModal() {
+                loginModal.classList.remove('active');
+                this.resetForms();
+            },
+
+            resetForms() {
+                document.getElementById('emailForm').reset();
+                document.getElementById('otpForm').reset();
+                document.querySelectorAll('.otp-input').forEach(input => input.value = '');
+                this.hideMessage('emailMessage');
+                this.hideMessage('otpMessage');
+            },
+
+            async handleEmailSubmit(e) {
+                e.preventDefault();
+                const emailInput = document.getElementById('loginEmail');
+                const email = emailInput.value.trim();
+
+                if (!this.isValidEmail(email)) {
+                    this.showMessage('emailMessage', 'Please enter a valid email address', 'error');
+                    return;
+                }
+
+                const sendBtn = document.getElementById('sendOtpBtn');
+                sendBtn.disabled = true;
+                sendBtn.textContent = 'Sending...';
+
+                try {
+                    await this.sendOtp(email);
+                    this.currentEmail = email;
+                    document.getElementById('sentEmail').textContent = email;
+                    
+                    // Switch to OTP step
+                    document.getElementById('emailStep').style.display = 'none';
+                    document.getElementById('otpStep').style.display = 'block';
+                    document.querySelector('.otp-input').focus();
+                    
+                    this.startResendTimer();
+                } catch (error) {
+                    this.showMessage('emailMessage', error.message, 'error');
+                } finally {
+                    sendBtn.disabled = false;
+                    sendBtn.textContent = 'Send Verification Code';
+                }
+            },
+
+            async sendOtp(email) {
+                // Generate 6-digit OTP
+                this.generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+                this.otpExpiry = Date.now() + (5 * 60 * 1000); // 5 minutes expiry
+
+                // Simulate sending email (In production, call your backend API)
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        // Store OTP in session storage for demo purposes
+                        sessionStorage.setItem('otp_' + email, JSON.stringify({
+                            otp: this.generatedOtp,
+                            expiry: this.otpExpiry
+                        }));
+
+                        // In production, send actual email via backend API
+                        console.log(`OTP for ${email}: ${this.generatedOtp}`);
+                        
+                        // Show OTP in console for demo (remove in production)
+                        this.showMessage('otpMessage', 
+                            `✅ Verification code sent! (Demo OTP: ${this.generatedOtp})`, 
+                            'success'
+                        );
+
+                        resolve();
+                    }, 1000);
+                });
+            },
+
+            async handleOtpSubmit(e) {
+                e.preventDefault();
+                const otpInputs = document.querySelectorAll('.otp-input');
+                const otp = Array.from(otpInputs).map(input => input.value).join('');
+
+                if (otp.length !== 6) {
+                    this.showMessage('otpMessage', 'Please enter the complete 6-digit code', 'error');
+                    return;
+                }
+
+                const verifyBtn = document.getElementById('verifyOtpBtn');
+                verifyBtn.disabled = true;
+                verifyBtn.textContent = 'Verifying...';
+
+                try {
+                    await this.verifyOtp(otp);
+                    this.showMessage('otpMessage', '🎉 Login successful! Welcome back!', 'success');
+                    
+                    // Store authentication token
+                    const authToken = this.generateAuthToken(this.currentEmail);
+                    localStorage.setItem('auth_token', authToken);
+                    localStorage.setItem('user_email', this.currentEmail);
+
+                    // Close modal and update UI
+                    setTimeout(() => {
+                        this.closeModal();
+                        this.updateUIAfterLogin();
+                    }, 1500);
+                } catch (error) {
+                    this.showMessage('otpMessage', error.message, 'error');
+                    otpInputs.forEach(input => input.value = '');
+                    otpInputs[0].focus();
+                } finally {
+                    verifyBtn.disabled = false;
+                    verifyBtn.textContent = 'Verify & Login';
+                }
+            },
+
+            async verifyOtp(enteredOtp) {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        const storedData = sessionStorage.getItem('otp_' + this.currentEmail);
+                        if (!storedData) {
+                            reject(new Error('OTP expired or not found. Please request a new code.'));
+                            return;
+                        }
+
+                        const { otp, expiry } = JSON.parse(storedData);
+
+                        if (Date.now() > expiry) {
+                            sessionStorage.removeItem('otp_' + this.currentEmail);
+                            reject(new Error('OTP has expired. Please request a new code.'));
+                            return;
+                        }
+
+                        if (enteredOtp !== otp) {
+                            reject(new Error('Invalid verification code. Please try again.'));
+                            return;
+                        }
+
+                        // Clear OTP after successful verification
+                        sessionStorage.removeItem('otp_' + this.currentEmail);
+                        resolve();
+                    }, 800);
+                });
+            },
+
+            async resendOtp() {
+                const resendBtn = document.getElementById('resendOtp');
+                if (resendBtn.disabled) return;
+
+                resendBtn.disabled = true;
+                try {
+                    await this.sendOtp(this.currentEmail);
+                    this.startResendTimer();
+                } catch (error) {
+                    this.showMessage('otpMessage', 'Failed to resend code. Please try again.', 'error');
+                    resendBtn.disabled = false;
+                }
+            },
+
+            startResendTimer() {
+                let timeLeft = 60;
+                const resendBtn = document.getElementById('resendOtp');
+                const timerDisplay = document.getElementById('resendTimer');
+                
+                resendBtn.disabled = true;
+                
+                this.resendTimeout = setInterval(() => {
+                    timeLeft--;
+                    timerDisplay.textContent = `(${timeLeft}s)`;
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(this.resendTimeout);
+                        resendBtn.disabled = false;
+                        timerDisplay.textContent = '';
+                    }
+                }, 1000);
+            },
+
+            generateAuthToken(email) {
+                // Generate a simple token (in production, use proper JWT from backend)
+                return btoa(email + ':' + Date.now() + ':' + Math.random());
+            },
+
+            updateUIAfterLogin() {
+                const loginBtn = document.getElementById('loginBtn');
+                const userEmail = localStorage.getItem('user_email');
+                
+                if (userEmail) {
+                    loginBtn.textContent = userEmail.split('@')[0];
+                    loginBtn.style.background = 'linear-gradient(135deg, #4ade80 0%, #22c55e 100%)';
+                    
+                    // Add logout functionality
+                    loginBtn.onclick = () => {
+                        if (confirm('Do you want to logout?')) {
+                            localStorage.removeItem('auth_token');
+                            localStorage.removeItem('user_email');
+                            loginBtn.textContent = 'Login';
+                            loginBtn.style.background = '';
+                            loginBtn.onclick = () => this.openModal();
+                        }
+                    };
+                }
+            },
+
+            isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            },
+
+            showMessage(elementId, message, type) {
+                const messageEl = document.getElementById(elementId);
+                messageEl.textContent = message;
+                messageEl.className = `auth-message show ${type}`;
+            },
+
+            hideMessage(elementId) {
+                const messageEl = document.getElementById(elementId);
+                messageEl.classList.remove('show');
+            }
+        };
+
+        // Initialize authentication system
+        authSystem.init();
+
+        // Check if user is already logged in
+        if (localStorage.getItem('auth_token')) {
+            authSystem.updateUIAfterLogin();
+        }
     </script>
 </body>
 </html>
